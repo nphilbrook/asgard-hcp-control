@@ -11,7 +11,7 @@
 
 # module "aws_oidc_eks" {
 #   source                 = "app.terraform.io/philbrook/tfe-oidc/aws"
-#   version                = "0.2.0"
+#   version                = "1.0.0"
 #   mode                   = "workspace"
 #   terraform_organization = var.terraform_organization
 #   tf_workspace_name      = tfe_workspace.eks_agents.name

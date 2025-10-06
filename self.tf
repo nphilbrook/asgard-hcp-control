@@ -33,7 +33,7 @@ resource "tfe_workspace" "self" {
 
 module "aws_oidc" {
   source  = "app.terraform.io/philbrook/tfe-oidc/aws"
-  version = "0.2.0"
+  version = "1.0.0"
   # source = "../../terraform-aws-tfe-oidc"
   mode                   = "workspace"
   terraform_organization = var.terraform_organization

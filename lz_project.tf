@@ -124,7 +124,7 @@ resource "tfe_variable" "lz_admin_token" {
 
 module "aws_oidc_lz" {
   source                 = "app.terraform.io/philbrook/tfe-oidc/aws"
-  version                = "0.2.0"
+  version                = "1.0.0"
   mode                   = "project"
   terraform_organization = var.terraform_organization
   tf_project_name        = tfe_project.lz_admin.name
