@@ -41,6 +41,7 @@ resource "tfe_policy_set_parameter" "allowed_providers" {
 resource "tfe_policy_set_parameter" "tf_allowed_versions" {
   key = "tf_allowed_versions"
   value = jsonencode([
+    "1.13.3",
     "1.13.0",
     "1.12.2",
     "1.12.1",
