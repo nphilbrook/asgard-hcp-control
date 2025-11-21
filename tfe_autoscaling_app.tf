@@ -5,7 +5,7 @@ resource "hcp_iam_workload_identity_provider" "tfe_tf_read_provider" {
   description       = "Allow this workspace on TFE to read HCP Packer artifact versions"
 
   oidc = {
-    issuer_uri        = "https://tfe-pi-new.nick-philbrook.sbx.hashidemos.io/"
+    issuer_uri        = "https://tfe-pi-new.nick-philbrook.sbx.hashidemos.io"
     allowed_audiences = [local.hcp_audience]
   }
 
