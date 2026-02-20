@@ -3,8 +3,9 @@ resource "tfe_project" "packer" {
 }
 
 resource "tfe_stack" "aws_packer" {
-  name       = "aws-asgard-packer-compute"
-  project_id = tfe_project.packer.id
+  name                = "aws-asgard-packer-compute"
+  project_id          = tfe_project.packer.id
+  speculative_enabled = true
   vcs_repo {
     github_app_installation_id = data.tfe_github_app_installation.gha_installation.id
     identifier                 = "${var.github_organization}/aws-asgard-packer-compute"
