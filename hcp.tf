@@ -1,39 +1,40 @@
 # TO BE UNCOMMENTED if org-level SPs ever support workload identity federation,
 # or project-level SPs can be granted org-level roles.
 
-# resource "hcp_service_principal" "tf_deploy" {
-#   name   = "hcp-tf-deploy"
-#   parent = hcp_project.admin.resource_name
-# }
+resource "hcp_service_principal" "tf_deploy" {
+  name   = "hcp-tf-deploy"
+  parent = hcp_project.admin.resource_name
+}
 
+# Obviated by below
 # resource "hcp_project_iam_binding" "tf_deploy_admin" {
 #   principal_id = hcp_service_principal.tf_deploy.resource_id
 #   project_id   = hcp_project.admin.resource_id
 #   role         = "roles/admin"
 # }
 
-# Wish I could do this - project SP can't have org bindings
-/* resource "hcp_organization_iam_binding" "tf_deploy_admin_org" {
+# Does it work?
+resource "hcp_organization_iam_binding" "tf_deploy_admin_org" {
   principal_id = hcp_service_principal.tf_deploy.resource_id
   role         = "roles/admin"
 }
- */
 
-# resource "hcp_iam_workload_identity_provider" "tf_deploy_provider" {
-#   name              = "hcp-tf-deploy-provider"
-#   service_principal = hcp_service_principal.tf_deploy.resource_name
-#   description       = "Allow this workspace on HCP TF to manage HCP"
 
-#   oidc = {
-#     issuer_uri = "https://app.terraform.io"
-#   }
+resource "hcp_iam_workload_identity_provider" "tf_deploy_provider" {
+  name              = "hcp-tf-deploy-provider"
+  service_principal = hcp_service_principal.tf_deploy.resource_name
+  description       = "Allow this workspace on HCP TF to manage HCP"
 
-#   # Only allow workloads running from the correct HCP TF workspace
-#   conditional_access = join("", [
-#     "jwt_claims.sub matches `^organization:${var.terraform_organization}",
-#     ":project:${tfe_project.self.name}:workspace:${tfe_workspace.self.name}:run_phase:.+`"
-#   ])
-# }
+  oidc = {
+    issuer_uri = "https://app.terraform.io"
+  }
+
+  # Only allow workloads running from the correct HCP TF workspace
+  conditional_access = join("", [
+    "jwt_claims.sub matches `^organization:${var.terraform_organization}",
+    ":project:${tfe_project.self.name}:workspace:${tfe_workspace.self.name}:run_phase:.+`"
+  ])
+}
 # END TO BE UNCOMMENTED
 
 # Projects

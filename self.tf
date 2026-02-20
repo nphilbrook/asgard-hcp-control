@@ -5,7 +5,7 @@ resource "tfe_project" "self" {
 resource "tfe_workspace" "self" {
   name              = "asgard-hcp-control"
   project_id        = tfe_project.self.id
-  terraform_version = "1.13.3"
+  terraform_version = "1.14.5"
   vcs_repo {
     github_app_installation_id = data.tfe_github_app_installation.gha_installation.id
     identifier                 = "${var.github_organization}/asgard-hcp-control"
@@ -14,22 +14,22 @@ resource "tfe_workspace" "self" {
 
 # Reference comment at top of hcp.tf
 # Required environment variable to enable HCP dynamic credentials
-# resource "tfe_variable" "hcp_provider_auth" {
-#   key          = "TFC_HCP_PROVIDER_AUTH"
-#   value        = "true"
-#   category     = "env"
-#   workspace_id = tfe_workspace.self.id
-#   description  = "Enable HCP dynamic credentials authentication"
-# }
+resource "tfe_variable" "hcp_provider_auth" {
+  key          = "TFC_HCP_PROVIDER_AUTH"
+  value        = "true"
+  category     = "env"
+  workspace_id = tfe_workspace.self.id
+  description  = "Enable HCP dynamic credentials authentication"
+}
 
 # Required environment variable for the workload identity provider resource name
-# resource "tfe_variable" "hcp_run_provider_resource_name" {
-#   key          = "TFC_HCP_RUN_PROVIDER_RESOURCE_NAME"
-#   value        = hcp_iam_workload_identity_provider.tf_deploy_provider.resource_name
-#   category     = "env"
-#   workspace_id = tfe_workspace.self.id
-#   description  = "Resource name of the workload identity provider for HCP authentication"
-# }
+resource "tfe_variable" "hcp_run_provider_resource_name" {
+  key          = "TFC_HCP_RUN_PROVIDER_RESOURCE_NAME"
+  value        = hcp_iam_workload_identity_provider.tf_deploy_provider.resource_name
+  category     = "env"
+  workspace_id = tfe_workspace.self.id
+  description  = "Resource name of the workload identity provider for HCP authentication"
+}
 
 module "aws_oidc" {
   source  = "app.terraform.io/philbrook/tfe-oidc/aws"
