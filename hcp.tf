@@ -82,8 +82,3 @@ resource "hcp_project_iam_binding" "admins_admin_waypoint" {
   principal_id = hcp_group.admins.resource_id
   role         = "roles/admin"
 }
-
-resource "hcp_project" "test" {
-  name        = "TEST"
-  description = "Test project for perms"
-}
