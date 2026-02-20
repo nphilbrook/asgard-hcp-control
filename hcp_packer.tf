@@ -43,9 +43,10 @@ resource "tfe_organization_run_task" "packer" {
   hmac_key_wo = data.hcp_packer_run_task.registry.hmac_key
 }
 
-resource "tfe_organization_run_task_global_settings" "packer" {
-  task_id           = tfe_organization_run_task.packer.id
-  enabled           = true
-  enforcement_level = "mandatory"
-  stages            = ["post_plan"]
-}
+# Eff this noice
+# resource "tfe_organization_run_task_global_settings" "packer" {
+#   task_id           = tfe_organization_run_task.packer.id
+#   enabled           = true
+#   enforcement_level = "mandatory"
+#   stages            = ["post_plan"]
+# }
