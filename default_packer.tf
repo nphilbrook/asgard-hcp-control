@@ -1,12 +1,23 @@
 resource "hcp_packer_bucket" "bastion" {
   project_id = data.hcp_project.default.resource_id
-  name       = "bastion"
+  name       = "bastion-ubuntu"
 }
 
 resource "hcp_packer_channel" "bastion_dev" {
   project_id  = data.hcp_project.default.resource_id
   name        = "dev"
   bucket_name = hcp_packer_bucket.bastion.name
+}
+
+resource "hcp_packer_bucket" "bastion_rhel" {
+  project_id = data.hcp_project.default.resource_id
+  name       = "bastion-rhel"
+}
+
+resource "hcp_packer_channel" "bastion_rhel_dev" {
+  project_id  = data.hcp_project.default.resource_id
+  name        = "dev"
+  bucket_name = hcp_packer_bucket.bastion_rhel.name
 }
 
 # This is the SP to actually build images from my mac
@@ -82,6 +93,11 @@ resource "tfe_variable" "bastion_hcp_run_provider_audience" {
 }
 
 resource "tfe_workspace_variable_set" "bastion_workspaces" {
-  workspace_id    = data.tfe_workspace.aws_vault_hvd.id
+  for_each = toset([
+    data.tfe_workspace.aws_vault_hvd.id,
+    data.tfe_workspace.aws_core_infra.id,
+    data.tfe_workspace.tfe_hvd.id
+  ])
+  workspace_id    = each.key
   variable_set_id = tfe_variable_set.bastion_workspaces.id
 }

@@ -13,6 +13,14 @@ data "tfe_workspace" "aws_vault_hvd" {
   name = "aws-vault-hvd"
 }
 
+data "tfe_workspace" "aws_core_infra" {
+  name = "aws-core-infra"
+}
+
+data "tfe_workspace" "tfe_hvd" {
+  name = "tfe-hvd"
+}
+
 # Moved to a stack
 # data "tfe_outputs" "aws_packer_compute" {
 #   organization = var.terraform_organization
